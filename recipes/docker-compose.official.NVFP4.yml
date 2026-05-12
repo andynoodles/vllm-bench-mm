@@ -1,0 +1,57 @@
+name: qwen-vllm
+services:
+  qwen3.6-server:
+    container_name: qwen3.6-server
+    image: vllm/vllm-openai:v0.20.0-cu130
+    networks:
+      - docker-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - HF_HOME=/root/.cache/huggingface
+    volumes:
+      - /home/$USER/.cache:/root/.cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command:
+      - "RedHatAI/Qwen3.6-35B-A3B-NVFP4"
+      - "--trust-remote-code"
+      - "--gpu-memory-utilization"
+      - "0.5"
+      - "--max-model-len"
+      - "32768"
+      - "--no-enable-prefix-caching"
+      - "--mm-processor-cache-gb"
+      - "0"
+      - "--reasoning-parser"
+      - "qwen3"
+      - "--tool-call-parser"
+      - "qwen3_coder"
+      - "--max-num-seqs"
+      - "20"
+      - "--performance-mode"
+      - "throughput"
+      - "--mm-processor-kwargs"
+      - '{"max_pixels": 4194304, "min_pixels": 3136}'
+      - "--limit-mm-per-prompt"
+      - '{"image": 1}'
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 50
+      start_period: 120s
+
+networks:
+  docker-network:

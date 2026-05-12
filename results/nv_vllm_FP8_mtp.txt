@@ -1,0 +1,35 @@
+--speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":2}'
+============ Serving Benchmark Result ============
+Successful requests:                     30        
+Failed requests:                         0         
+Maximum request concurrency:             20        
+Benchmark duration (s):                  130.68    
+Total input tokens:                      97924     
+Total generated tokens:                  7680      
+Request throughput (req/s):              0.23      
+Output token throughput (tok/s):         58.77     
+Peak output token throughput (tok/s):    100.00    
+Peak concurrent requests:                23.00     
+Total token throughput (tok/s):          808.10    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          26274.58  
+Median TTFT (ms):                        16803.35  
+P99 TTFT (ms):                           60076.00  
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          212.47    
+Median TPOT (ms):                        214.43    
+P99 TPOT (ms):                           406.96    
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           533.27    
+Median ITL (ms):                         238.44    
+P99 ITL (ms):                            3184.05   
+---------------Speculative Decoding---------------
+Acceptance rate (%):                     77.22     
+Acceptance length:                       2.54      
+Drafts:                                  3018      
+Draft tokens:                            6036      
+Accepted tokens:                         4661      
+Per-position acceptance (%):
+  Position 0:                            84.00     
+  Position 1:                            70.44     
+==================================================
